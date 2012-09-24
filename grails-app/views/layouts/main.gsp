@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="phonecat">
+<html lang="en" ng-app="AsgardConsole">
 	<head>
       <meta name="pageId" content="${controllerName}.${actionName}" />
       <title><g:layoutTitle/></title>

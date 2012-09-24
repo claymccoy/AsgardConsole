@@ -36,6 +36,20 @@
       return $scope.mainImageUrl = imageUrl;
     };
   };
-  appName = 'phonecat';
+  this.ConsoleCtrl = function($scope, Grails) {
+    $scope.editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      lineNumbers: true,
+      matchBrackets: true,
+      mode: "text/x-groovy"
+    });
+    return $scope.executeCode = function() {
+      return $scope.result = Grails.getResource($scope).save({
+        action: 'execute'
+      }, {
+        code: $scope.editor.getValue()
+      }, 'test');
+    };
+  };
+  appName = 'AsgardConsole';
   angular.module(appName, ['phonecatFilters', 'phonecatServices']);
 }).call(this);

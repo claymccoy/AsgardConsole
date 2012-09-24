@@ -1,3 +1,3 @@
 
-appName = 'phonecat'
+appName = 'AsgardConsole'
 angular.module appName, ['phonecatFilters', 'phonecatServices']

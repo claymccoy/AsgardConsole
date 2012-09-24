@@ -15,7 +15,7 @@ driver = {
     driver
 }
 
-baseUrl = 'http://localhost:8080/phonecat/'
+baseUrl = 'http://localhost:8080/AsgardConsole/'
 reportsDir = 'target/geb-reports'
 
 environments {

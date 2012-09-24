@@ -21,4 +21,14 @@ modules = {
         resource id: 'js', url: [dir: 'js/angular/app/lib/angular', file: "angular-resource.js"], nominify: true
     }
 
+    codeMirrorGroovy {
+        dependsOn 'codeMirror'
+        resource url: 'js/codemirror/mode/groovy/groovy.js'
+    }
+
+    codeMirror {
+        resource url: 'js/codemirror/lib/codemirror.css'
+        resource url: 'js/codemirror/lib/codemirror.js'
+    }
+
 }
