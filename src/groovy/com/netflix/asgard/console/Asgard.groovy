@@ -3,16 +3,12 @@ package com.netflix.asgard.console
 class Asgard {
 
     final String baseUrl
-    final String regionFilter
+    final String inRegion
     final AsgardRemoteCaller asgardRemoteCaller
-
-    Asgard regionFilter(String region) {
-        new Asgard(baseUrl, region, asgardRemoteCaller)
-    }
 
     protected Asgard(String baseUrl, String region, AsgardRemoteCaller asgardRemoteCaller) {
         this.baseUrl = baseUrl
-        this.regionFilter = region
+        this.inRegion = region
         this.asgardRemoteCaller = asgardRemoteCaller
     }
 
@@ -34,9 +30,32 @@ class Asgard {
     }
 
     String queryUrl(String name, String id) {
-        String region = regionFilter ? "${regionFilter}" : ''
+        String region = inRegion ?: ''
         String object = id ? "show/${id}" : 'list'
         "http://${baseUrl}${region ? "/${region}" : ''}/${name}/${object}"
+    }
+
+    Map<Asgard, Object> acrossRegions(List<String> regions = this.region.code, Closure doIt) {
+        Map<Asgard, Object> resultByRegion = [:]
+        regions.each {
+            def result = inRegion(it, doIt)
+            if (result) {
+                resultByRegion[inRegion(it)] = result
+            }
+        }
+        resultByRegion
+    }
+
+    Object inRegion(String region, Closure doIt) {
+        inRegion(region).with doIt
+    }
+
+    Asgard inRegion(String region) {
+        new Asgard(baseUrl, region, asgardRemoteCaller)
+    }
+
+    String toString() {
+        "${baseUrl}/${inRegion}"
     }
 
 }
