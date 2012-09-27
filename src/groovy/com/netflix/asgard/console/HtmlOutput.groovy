@@ -1,0 +1,40 @@
+package com.netflix.asgard.console
+
+import groovy.json.JsonOutput
+import name.fraser.neil.plaintext.diff_match_patch
+
+class HtmlOutput {
+
+    final stringBuilder = new StringBuilder()
+    def output = this
+
+    def diff(a, b) {
+        def differ = new diff_match_patch()
+        def diffs = differ.diff_main(prettyPrint(a), prettyPrint(b))
+        differ.diff_cleanupSemantic(diffs)
+        "<pre>${differ.diff_prettyHtml(diffs)}</pre>"
+    }
+
+    def link = { linkContent ->
+        use(LinkCreator) {
+            return linkContent().toString()
+        }
+    }
+
+    def leftShift(content) {
+        if (content instanceof GString) {
+          // removes quotes in html output formatting
+          stringBuilder << content.toString()
+        } else {
+          stringBuilder << prettyPrint(content)
+        }
+    }
+
+    String toString() {
+        "<pre>${stringBuilder.toString()}</pre>"
+    }
+
+    private String prettyPrint(content) {
+        JsonOutput.prettyPrint(JsonOutput.toJson(content))
+    }
+}

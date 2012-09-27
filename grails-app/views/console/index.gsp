@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Asgard Console</title>
+  <title>com.netflix.asgard.console.Asgard Console</title>
   <meta name="layout" content="main">
   <r:require modules="codeMirrorGroovy"/>
 
@@ -9,11 +9,13 @@
 <body>
 
 <form><textarea id="code" name="code">
-  'test: ' + (1 + 1)
+def asgard = asgardLocator.getInstance('nactest')
+asgard.region.code
 </textarea></form>
 
 <button class="btn" type="button" ng-click="executeCode(editor.getValue())">Execute</button>
 
+<div ng-bind-html-unsafe="result.html"></div>
 <div class="alert alert-success" >{{result.resultEval}}</div>
 <div class="alert alert-error" >{{result.error}}</div>
 </body>
