@@ -1,6 +1,7 @@
 (function() {
-  var appName;
-  angular.module('phonecatServices', ['ngResource']).service('Grails', function($resource) {
+  var appName, module;
+  module = angular.module('phonecatServices', ['ngResource']);
+  module.service('Grails', function($resource) {
     return {
       getResource: function(scope) {
         return $resource("/" + appName + "/:controller/:action/:id", {
@@ -37,18 +38,37 @@
     };
   };
   this.ConsoleCtrl = function($scope, Grails) {
+    $('body').tooltip({
+      selector: '.param',
+      placement: 'right'
+    });
+    $scope.params = {};
     $scope.editor = CodeMirror.fromTextArea(document.getElementById("code"), {
       lineNumbers: true,
       matchBrackets: true,
       mode: "text/x-groovy"
     });
-    return $scope.executeCode = function() {
+    $scope.executeCode = function() {
       return $scope.result = Grails.getResource($scope).save({
         action: 'execute'
       }, {
-        code: $scope.editor.getValue()
-      }, 'test');
+        code: $scope.editor.getValue(),
+        consoleParams: $scope.params,
+        consoleParamTypes: $scope.configResult.consoleParams
+      });
     };
+    $scope.configureCode = function() {
+      return $scope.configResult = Grails.getResource($scope).save({
+        action: 'configure'
+      }, {
+        code: $scope.editor.getValue(),
+        consoleParams: $scope.params
+      });
+    };
+    $scope.addParam = function(paramName, paramValue) {
+      return $scope.params[paramName] = paramValue;
+    };
+    return $scope.configureCode();
   };
   appName = 'AsgardConsole';
   angular.module(appName, ['phonecatFilters', 'phonecatServices']);

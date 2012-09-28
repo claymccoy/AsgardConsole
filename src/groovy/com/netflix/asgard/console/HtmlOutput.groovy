@@ -22,7 +22,7 @@ class HtmlOutput {
     }
 
     def leftShift(content) {
-        if (content instanceof GString) {
+        if (content instanceof GString || content instanceof String) {
           // removes quotes in html output formatting
           stringBuilder << content.toString()
         } else {
@@ -31,7 +31,10 @@ class HtmlOutput {
     }
 
     String toString() {
-        "<pre>${stringBuilder.toString()}</pre>"
+        String text = stringBuilder.toString()
+        if (text) {
+            "<pre>${stringBuilder.toString()}</pre>"
+        }
     }
 
     private String prettyPrint(content) {
