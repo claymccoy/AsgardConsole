@@ -5,7 +5,15 @@ import org.codehaus.groovy.grails.web.json.JSONObject
 
 class ConsoleController {
 
-    def index = { [jsController: 'ConsoleCtrl'] }
+    def gistService
+
+    def index = {
+        String code = ''
+        if (params.gistId && params.gistFile) {
+            code = gistService.getRawCode(params.gistId, params.gistFile)
+        }
+        [jsController: 'ConsoleCtrl', code: code]
+    }
 
     def execute() {
 

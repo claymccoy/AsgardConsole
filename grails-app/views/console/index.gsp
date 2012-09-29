@@ -9,22 +9,7 @@
 <body>
 
 <div id="codeFrame" ng-mouseleave="configureCode()"><textarea id="code" name="code">
-config {
-  params {
-    your_name 'The name of the person executing this script.', 'Clay'
-    load_balancer_name 'The name of the load balancer that you would like to see JSON for.'
-  }
-}
-
-{
-  html.output << "Greetings " + param.your_name
-  asgardLocator.getInstance('nactest').with {
-    html.with {
-      output << inRegion('us-east-1') { loadBalancer param.load_balancer_name }
-    }
-  }
-}
-</textarea></div>
+${code}</textarea></div>
 
 <div id="controls" class="well well-small">
     <div id="params" class="row" ng-repeat="consoleParam in configResult.consoleParams">
