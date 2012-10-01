@@ -2,6 +2,7 @@ package com.netflix.asgard.console
 
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONObject
+import org.codehaus.groovy.tools.shell.util.NoExitSecurityManager
 
 class ConsoleController {
 
@@ -67,6 +68,7 @@ class ConsoleController {
         def consoleParams
         def error
         def configProcessor = new ConsoleConfigurer()
+        System.setSecurityManager(new NoExitSecurityManager());
         try {
             def binding = new Binding([configProcessor: configProcessor])
             consoleParams = new GroovyShell(binding).evaluate(code)
