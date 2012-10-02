@@ -21,22 +21,6 @@
       }
     };
   });
-  this.PhoneListCtrl = function($scope, Grails) {
-    $scope.phones = Grails.getResource($scope).query({
-      action: 'query'
-    });
-    return $scope.orderProp = 'age';
-  };
-  this.PhoneDetailCtrl = function($scope, Grails) {
-    $scope.phone = Grails.getResource($scope).get({
-      action: 'query'
-    }, function(phone) {
-      return $scope.setMainImage(phone.images[0]);
-    });
-    return $scope.setMainImage = function(imageUrl) {
-      return $scope.mainImageUrl = imageUrl;
-    };
-  };
   this.ConsoleCtrl = function($scope, Grails) {
     $('body').tooltip({
       selector: '.param',
@@ -49,12 +33,17 @@
       mode: "text/x-groovy"
     });
     $scope.executeCode = function() {
-      return $scope.result = Grails.getResource($scope).save({
+      $scope.result = Grails.getResource($scope).save({
         action: 'execute'
       }, {
         code: $scope.editor.getValue(),
         consoleParams: $scope.params,
         consoleParamTypes: $scope.configResult.consoleParams
+      });
+      return $scope.$watch('result.html', function(newValue, oldValue) {
+        return $('.sparkline').sparkline('html', {
+          enableTagOptions: true
+        });
       });
     };
     $scope.configureCode = function() {

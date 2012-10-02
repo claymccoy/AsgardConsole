@@ -35,9 +35,17 @@ class HtmlOutput {
         if (text) {
             "<pre>${stringBuilder.toString()}</pre>"
         }
+        text
     }
 
     private String prettyPrint(content) {
         JsonOutput.prettyPrint(JsonOutput.toJson(content))
+    }
+
+    String sparkline(List<Integer> values, Map<String, String> options = [:]) {
+        String optionsString = options.collect { String name, String value ->
+            "spark${name}=\"${value}\""
+        }.join(' ')
+        "<span class=\"sparkline\" values=\"${values.join(',')}\" ${optionsString}></span>"
     }
 }

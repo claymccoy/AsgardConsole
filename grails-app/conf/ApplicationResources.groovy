@@ -1,5 +1,9 @@
 modules = {
 
+    console {
+        dependsOn 'app, codeMirrorGroovy, sparkline'
+    }
+
     app {
         dependsOn 'jquery, angularResource, bootstrap'
         resource url: 'css/app.css'
@@ -29,6 +33,10 @@ modules = {
     codeMirror {
         resource url: 'js/codemirror/lib/codemirror.css'
         resource url: 'js/codemirror/lib/codemirror.js'
+    }
+
+    sparkline {
+        resource url: 'js/sparkline/jquery.sparkline.min.js'
     }
 
 }

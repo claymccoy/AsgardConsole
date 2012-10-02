@@ -3,8 +3,7 @@
 <head>
   <title>com.netflix.asgard.console.Asgard Console</title>
   <meta name="layout" content="main">
-  <r:require modules="codeMirrorGroovy"/>
-
+  <r:require modules="console"/>
 </head>
 <body>
 
