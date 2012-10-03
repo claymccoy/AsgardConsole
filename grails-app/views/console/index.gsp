@@ -7,10 +7,10 @@
 </head>
 <body>
 
-<div id="codeFrame" ng-mouseleave="configureCode()"><textarea id="code" name="code">
+<div id="codeFrame" ng-mouseleave="configureCode()" ng-hide="${params.hideCode}"><textarea id="code" name="code">
 ${code}</textarea></div>
 
-<div id="controls" class="well well-small">
+<div id="controls" class="well well-small" ng-hide="${params.hideControls}">
     <div id="params" class="row" ng-repeat="consoleParam in configResult.consoleParams">
       <div class="span2">{{consoleParam.name}}</div>
       <div class="span10">

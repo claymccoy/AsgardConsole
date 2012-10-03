@@ -57,7 +57,10 @@
     $scope.addParam = function(paramName, paramValue) {
       return $scope.params[paramName] = paramValue;
     };
-    return $scope.configureCode();
+    $scope.configureCode();
+    if ($scope.runCode === 'true') {
+      return $scope.executeCode();
+    }
   };
   appName = 'AsgardConsole';
   angular.module(appName, ['phonecatFilters', 'phonecatServices']);

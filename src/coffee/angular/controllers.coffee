@@ -20,6 +20,7 @@
   $scope.addParam = (paramName, paramValue) ->
     $scope.params[paramName] = paramValue
   $scope.configureCode()
+  if ($scope.runCode == 'true') then $scope.executeCode()
 
 
 
