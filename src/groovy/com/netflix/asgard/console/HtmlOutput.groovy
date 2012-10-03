@@ -12,7 +12,7 @@ class HtmlOutput {
         def differ = new diff_match_patch()
         def diffs = differ.diff_main(prettyPrint(a), prettyPrint(b))
         differ.diff_cleanupSemantic(diffs)
-        "<pre>${differ.diff_prettyHtml(diffs)}</pre>"
+        differ.diff_prettyHtml(diffs)
     }
 
     def link = { linkContent ->
@@ -33,7 +33,7 @@ class HtmlOutput {
     String toString() {
         String text = stringBuilder.toString()
         if (text) {
-            "<pre>${stringBuilder.toString()}</pre>"
+            return "<pre>${stringBuilder.toString()}</pre>"
         }
         text
     }
