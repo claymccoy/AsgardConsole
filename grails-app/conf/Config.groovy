@@ -11,6 +11,7 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
+grails.app.context = '/'
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -71,23 +72,54 @@ environments {
 
 // log4j configuration
 log4j = {
-    // Example of changing the log pattern for the default console appender:
-    //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+        // Overriding the default stdout appender
+        console name:'stdout', threshold: org.apache.log4j.Level.DEBUG, layout: pattern(conversionPattern: '%d %5p [%25.25c] %m%n')
+        environments {
+            production {
+                // Specifically using hte name "stacktrace", so that it will prevent the evil stacktrace.log from being created
+                rollingFile name: 'stacktrace', maxFileSize: 1024, file: "/tmp/stacktrace.log"
+            }
+        }
+    }
 
-    error  'org.codehaus.groovy.grails.web.servlet',        // controllers
-           'org.codehaus.groovy.grails.web.pages',          // GSP
-           'org.codehaus.groovy.grails.web.sitemesh',       // layouts
-           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-           'org.codehaus.groovy.grails.web.mapping',        // URL mapping
-           'org.codehaus.groovy.grails.commons',            // core / classloading
-           'org.codehaus.groovy.grails.plugins',            // plugins
-           'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
-           'org.springframework',
-           'org.hibernate',
-           'net.sf.ehcache.hibernate'
+    info 'org.codehaus.groovy.grails.web.servlet',        // controllers
+            'org.codehaus.groovy.grails.web.pages',          // GSP
+            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
+            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+            'org.codehaus.groovy.grails.web.mapping',        // URL mapping
+            'org.codehaus.groovy.grails.commons',            // core / classloading
+            'org.codehaus.groovy.grails.plugins',            // plugins
+            'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
+            'org.springframework',
+            'org.hibernate',
+            'net.sf.ehcache.hibernate'
+    info 'grails.app'
+
+    debug 'netflix'
+    debug 'grails.app.controllers.netflix'
+    debug 'grails.app.services.netflix'
+
+    environments {
+        development {
+            warn stdout: 'StackTrace'
+        }
+        production {
+            warn stacktrace: 'StackTrace'
+        }
+    }
+
+    root {
+        warn 'stdout' // By default everything will be warn and error and go to stdout, which I believe will be catalina.out
+    }
+
+    environments {
+        production {
+            root {
+                warn 'stdout', 'stacktrace' // override the above
+            }
+        }
+    }
 }
 
 coffeescript.modules = {
