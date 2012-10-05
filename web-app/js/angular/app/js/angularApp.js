@@ -4,7 +4,7 @@
   module.service('Grails', function($resource) {
     return {
       getResource: function(scope) {
-        return $resource("/" + appName + "/:controller/:action/:id", {
+        return $resource("/:controller/:action/:id", {
           controller: scope.controller || '',
           action: scope.action || '',
           id: scope.id || ''
