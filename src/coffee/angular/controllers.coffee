@@ -11,9 +11,7 @@
     mode: "text/x-groovy"
   });
   $scope.executeCode = () ->
-    alert('!!JSexecute')
     $scope.result = Grails.getResource($scope).save {action: 'execute'}, {code: $scope.editor.getValue(), consoleParams: $scope.params, consoleParamTypes: $scope.configResult.consoleParams}
-    alert('!!JSexecuted')
     $scope.$watch('result.html', (newValue, oldValue) ->
       $('.sparkline').sparkline('html', { enableTagOptions: true })
     )

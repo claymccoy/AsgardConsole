@@ -17,8 +17,6 @@ class ConsoleController {
     }
 
     def execute() {
-        println '!!EXECUTE'
-
         Map consoleParams = [:]
         def consoleParamTypes = request.JSON.consoleParamTypes
         if (consoleParamTypes != JSONObject.NULL) {
@@ -45,11 +43,9 @@ class ConsoleController {
         def configProcessor = new ConsoleExecuter(consoleParams)
         def asgardLocator = new AsgardLocator(new AsgardRemoteCaller())
         def html = new HtmlOutput()
-        println code
         try {
             def binding = new Binding([asgardLocator: asgardLocator, html: html, configProcessor: configProcessor])
             result = new GroovyShell(binding).evaluate(code)
-            println '!!Executed'
         } catch(Exception e) {
             e.printStackTrace()
             error = e
@@ -63,9 +59,6 @@ class ConsoleController {
     }
 
     def configure() {
-
-        println '!!CONFIGURE'
-
         String code = """
           configProcessor.with {
             ${request.JSON.code}

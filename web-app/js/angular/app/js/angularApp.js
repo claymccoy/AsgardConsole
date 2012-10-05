@@ -33,7 +33,6 @@
       mode: "text/x-groovy"
     });
     $scope.executeCode = function() {
-      alert('!!JSexecute');
       $scope.result = Grails.getResource($scope).save({
         action: 'execute'
       }, {
@@ -41,7 +40,6 @@
         consoleParams: $scope.params,
         consoleParamTypes: $scope.configResult.consoleParams
       });
-      alert('!!JSexecuted');
       return $scope.$watch('result.html', function(newValue, oldValue) {
         return $('.sparkline').sparkline('html', {
           enableTagOptions: true
