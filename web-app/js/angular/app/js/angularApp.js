@@ -32,13 +32,17 @@
       matchBrackets: true,
       mode: "text/x-groovy"
     });
+    $scope.executing = false;
     $scope.executeCode = function() {
+      $scope.executing = true;
       $scope.result = Grails.getResource($scope).save({
         action: 'execute'
       }, {
         code: $scope.editor.getValue(),
         consoleParams: $scope.params,
         consoleParamTypes: $scope.configResult.consoleParams
+      }, function() {
+        return $scope.executing = false;
       });
       return $scope.$watch('result.html', function(newValue, oldValue) {
         return $('.sparkline').sparkline('html', {

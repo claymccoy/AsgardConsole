@@ -10,8 +10,12 @@
     matchBrackets: true,
     mode: "text/x-groovy"
   });
+  $scope.executing = false
   $scope.executeCode = () ->
-    $scope.result = Grails.getResource($scope).save {action: 'execute'}, {code: $scope.editor.getValue(), consoleParams: $scope.params, consoleParamTypes: $scope.configResult.consoleParams}
+    $scope.executing = true
+    $scope.result = Grails.getResource($scope).save {action: 'execute'},
+      {code: $scope.editor.getValue(), consoleParams: $scope.params, consoleParamTypes: $scope.configResult.consoleParams},
+      -> $scope.executing = false
     $scope.$watch('result.html', (newValue, oldValue) ->
       $('.sparkline').sparkline('html', { enableTagOptions: true })
     )

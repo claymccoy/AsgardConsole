@@ -11,14 +11,17 @@
 ${code}</textarea></div>
 
 <div id="controls" class="well well-small" ng-hide="${params.hideControls}">
-    <div id="params" class="row" ng-repeat="consoleParam in configResult.consoleParams">
+  <div class="row">
+    <div class="span2"><button class="btn btn-primary" type="button" ng-click="executeCode()">Execute</button></div>
+    <div class="span10"><div class="progress progress-striped active"><div ng-show="executing" class="bar" style="width: 100%;"></div></div></div>
+    <div id="params" ng-repeat="consoleParam in configResult.consoleParams">
       <div class="span2">{{consoleParam.name}}</div>
       <div class="span10">
         <input class="param" title="{{consoleParam.description}}" type="text" ng-model="param"
                ng-change="addParam(consoleParam.name, param)" placeholder="{{consoleParam.defaultValue}}" value="{{consoleParam.value}}">
       </div>
     </div>
-    <button class="btn btn-primary" type="button" ng-click="executeCode()">Execute</button>
+  </div>
 </div>
 
 %{--<div class="text-success" >{{result.resultEval}}</div>--}%
