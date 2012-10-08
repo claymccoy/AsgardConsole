@@ -63,18 +63,17 @@ class ConsoleController {
           configProcessor.with {
             ${request.JSON.code}
           }
+          configProcessor.getConfig()
         """
         def consoleParams
         def error
         def configProcessor = new ConsoleConfigurer()
         System.setSecurityManager(new NoExitSecurityManager());
+        ConsoleConfig config
         try {
             def binding = new Binding([configProcessor: configProcessor])
-            consoleParams = new GroovyShell(binding).evaluate(code)
-            if (consoleParams instanceof ConsoleConfigurer) {
-                consoleParams = null
-            }
-            consoleParams.each {
+            config = new GroovyShell(binding).evaluate(code)
+            config.parameters.each {
                 it.value = request.JSON.consoleParams[it.name]
             }
         } catch(Exception e) {
@@ -83,7 +82,8 @@ class ConsoleController {
         }
         render([
                 error: error?.getMessage(),
-                consoleParams: consoleParams
+                title: config?.title,
+                consoleParams: config?.parameters,
         ] as JSON)
     }
 

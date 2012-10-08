@@ -17,4 +17,8 @@ class ConsoleExecuter {
         new ConfigureConsoleParams().with paramDefinitions
     }
 
+    def title(String title) {
+        // do nothing
+    }
+
 }
